@@ -1,35 +1,20 @@
 import express, { Request, Response } from "express";
 const tasksRouter = express.Router();
-
-interface Task {
-  id?: number;
-  text: string;
-}
+import { Task } from "../models/Task";
+import * as taskController from "../controllers/Task";
 
 let listTasks: Task[] = [];
 
 tasksRouter.get("/", (req: Request, res: Response) => {
-  res.send(listTasks);
+  return taskController.getAllTasks(req, res);
 });
 
 tasksRouter.get("/:id", (req: Request, res: Response) => {
-  const id = req.params.id;
-  const task = listTasks.find((t) => t.id == id);
-
-  if (!task) {
-    return res.status(404).json({ error: "Task not found" });
-  }
-  res.status(200).json(task);
+  return taskController.getTaskById(req, res);
 });
 
 tasksRouter.post("/", (req: Request, res: Response) => {
-  const body = req.body;
-  const task: Task = body;
-  task.id = listTasks.length + 1;
-
-  listTasks.push(task);
-
-  res.status(201).json(task);
+  return taskController.createTask(req, res);
 });
 
 tasksRouter.patch("/:id", (req: Request, res: Response) => {
