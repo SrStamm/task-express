@@ -8,8 +8,7 @@ export const getAllTasks = (req: Request, res: Response) => {
 };
 
 export const getTaskById = (req: Request, res: Response) => {
-  const id = req.params.id;
-
+  const id = parseInt(req.params.id);
   const task = taskService.getTaskById(id);
 
   if (!task) {
@@ -32,7 +31,7 @@ export const createTask = (req: Request, res: Response) => {
 };
 
 export const updateTask = (req: Request, res: Response) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   const taskBody: Task = req.body;
 
   const task = taskService.updateTask(id, taskBody);
@@ -42,4 +41,20 @@ export const updateTask = (req: Request, res: Response) => {
   }
 
   res.status(202).json(task);
+};
+
+export const deleteTask = (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "ID inválido" });
+  }
+
+  const deleted = taskService.deleteTask(id);
+
+  if (!deleted) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  res.status(204).send();
 };
