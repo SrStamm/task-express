@@ -23,7 +23,6 @@ tasksRouter.post("/", (req: Request, res: Response) => {
 });
 
 tasksRouter.patch("/:id", (req: Request, res: Response) => {
-  const body = req.body;
   const taskId = req.params.id;
 
   const task = listTasks.find((task) => task.id == taskId);
@@ -32,11 +31,23 @@ tasksRouter.patch("/:id", (req: Request, res: Response) => {
     return res.status(404).json({ message: "Task not found" });
   }
 
-  const taskBody: Task = body;
-
+  const taskBody: Task = req.body;
   task.text = taskBody.text;
 
-  res.status(201).json(task);
+  res.status(202).json(task);
+});
+
+tasksRouter.delete("/:id", (req: Request, res: Response) => {
+  const taskId = req.params.id;
+  const index = listTasks.findIndex((t) => t.id == taskId);
+
+  if (index === -1) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  listTasks.splice(index, 1);
+
+  res.status(204).send();
 });
 
 export default tasksRouter;
