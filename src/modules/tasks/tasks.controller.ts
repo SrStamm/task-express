@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import * as taskService from "../services/task";
-import { Task } from "../models/Task";
+import * as taskService from "./tasks.service";
+import { Task } from "./tasks.schema";
 
 export const getAllTasks = (req: Request, res: Response) => {
   const tasks = taskService.getAllTasks();

@@ -1,4 +1,4 @@
-import { Task } from "../models/Task";
+import { Task } from "./tasks.schema";
 
 let listTasks: Task[] = [];
 let contador = 0;
