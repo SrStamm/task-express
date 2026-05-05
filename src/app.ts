@@ -3,6 +3,8 @@ import tasksRouter from "./routes/tasks";
 
 const app = express();
 
+app.use(express.json());
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
