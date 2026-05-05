@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import tasksRouter from "./routes/tasks";
+import tasksRouter from "./modules/tasks/tasks.router";
 
 const app = express();
 

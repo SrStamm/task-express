@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 const tasksRouter = express.Router();
-import * as taskController from "../controllers/Task";
+import * as taskController from "./tasks.controller";
 
 tasksRouter.get("/", (req: Request, res: Response) => {
   return taskController.getAllTasks(req, res);
