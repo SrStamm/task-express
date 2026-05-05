@@ -22,4 +22,21 @@ tasksRouter.post("/", (req: Request, res: Response) => {
   res.status(201).json(task);
 });
 
+tasksRouter.patch("/:id", (req: Request, res: Response) => {
+  const body = req.body;
+  const taskId = req.params.id;
+
+  const task = listTasks.find((task) => task.id == taskId);
+
+  if (!task) {
+    return res.status(404).json({ message: "Task not found" });
+  }
+
+  const taskBody: Task = body;
+
+  task.text = taskBody.text;
+
+  res.status(201).json(task);
+});
+
 export default tasksRouter;
