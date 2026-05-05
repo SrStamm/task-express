@@ -6,18 +6,18 @@ interface Task {
   text: string;
 }
 
-let listaTasks: [Task] | [] = [];
+let listTasks: Task[] = [];
 
 tasksRouter.get("/", (req: Request, res: Response) => {
-  res.send(listaTasks);
+  res.send(listTasks);
 });
 
 tasksRouter.post("/", (req: Request, res: Response) => {
   const body = req.body;
   const task: Task = body;
-  task.id = listaTasks.length + 1;
+  task.id = listTasks.length + 1;
 
-  listaTasks.push(task);
+  listTasks.push(task);
 
   res.status(201).json(task);
 });
