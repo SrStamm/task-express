@@ -30,3 +30,16 @@ export const createTask = (req: Request, res: Response) => {
 
   res.status(201).json(task);
 };
+
+export const updateTask = (req: Request, res: Response) => {
+  const id = req.params.id;
+  const taskBody: Task = req.body;
+
+  const task = taskService.updateTask(id, taskBody);
+
+  if (!task) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  res.status(202).json(task);
+};
