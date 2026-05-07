@@ -1,21 +1,24 @@
+import { prisma } from "../../../lib/prisma";
 import { Task } from "./tasks.schema";
 
 let listTasks: Task[] = [];
 let contador = 0;
 
-export const getAllTasks = () => {
-  return listTasks;
+export const getAllTasks = async () => {
+  return await prisma.task.findMany();
 };
 
 export const getTaskById = (id: number) => {
   return listTasks.find((t) => t.id === id);
 };
 
-export const createTask = (text: string) => {
-  const task: Task = { id: contador + 1, text };
-  contador += 1;
-  listTasks.push(task);
-  return task;
+export const createTask = async (text: string) => {
+  const newTask = await prisma.task.create({
+    data: {
+      text: text,
+    },
+  });
+  return newTask;
 };
 
 export const updateTask = (id: number, taskBody: Task) => {

@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import * as taskService from "./tasks.service";
 import { Task } from "./tasks.schema";
 
-export const getAllTasks = (req: Request, res: Response) => {
-  const tasks = taskService.getAllTasks();
+export const getAllTasks = async (req: Request, res: Response) => {
+  const tasks = await taskService.getAllTasks();
   return res.status(200).json(tasks);
 };
 
@@ -18,10 +18,10 @@ export const getTaskById = (req: Request, res: Response) => {
   res.status(200).json(task);
 };
 
-export const createTask = (req: Request, res: Response) => {
+export const createTask = async (req: Request, res: Response) => {
   const body: Task = req.body;
 
-  const task = taskService.createTask(body.text);
+  const task = await taskService.createTask(body.text);
 
   if (!task) {
     return res.status(400).json({ error: "Task not created" });
