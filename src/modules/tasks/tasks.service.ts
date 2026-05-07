@@ -1,15 +1,12 @@
 import { prisma } from "../../../lib/prisma";
 import { Task } from "./tasks.schema";
 
-let listTasks: Task[] = [];
-let contador = 0;
-
 export const getAllTasks = async () => {
   return await prisma.task.findMany();
 };
 
-export const getTaskById = (id: number) => {
-  return listTasks.find((t) => t.id === id);
+export const getTaskById = async (id: number) => {
+  return await prisma.task.findUnique({ where: { id: id } });
 };
 
 export const createTask = async (text: string) => {
@@ -21,22 +18,23 @@ export const createTask = async (text: string) => {
   return newTask;
 };
 
-export const updateTask = (id: number, taskBody: Task) => {
-  const task = listTasks.find((t) => t.id === id);
-  if (!task) {
-    return null;
-  }
-  task.text = taskBody.text;
-  return task;
+export const updateTask = async (id: number, taskBody: Task) => {
+  const updateTask = await prisma.task.update({
+    where: { id: id },
+    data: { text: taskBody.text },
+  });
+
+  return updateTask;
 };
 
-export const deleteTask = (id: number) => {
-  const task = getTaskById(id);
+export const deleteTask = async (id: number) => {
+  const taskFinded = await getTaskById(id);
 
-  if (!task) {
+  if (!taskFinded) {
     return false;
   }
 
-  listTasks = listTasks.filter((t) => t.id !== id);
+  await prisma.task.delete({ where: { id: id } });
+
   return true;
 };

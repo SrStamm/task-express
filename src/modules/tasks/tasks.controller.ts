@@ -7,9 +7,9 @@ export const getAllTasks = async (req: Request, res: Response) => {
   return res.status(200).json(tasks);
 };
 
-export const getTaskById = (req: Request, res: Response) => {
+export const getTaskById = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
-  const task = taskService.getTaskById(id);
+  const task = await taskService.getTaskById(id);
 
   if (!task) {
     return res.status(404).json({ error: "Task not found" });
@@ -30,11 +30,11 @@ export const createTask = async (req: Request, res: Response) => {
   res.status(201).json(task);
 };
 
-export const updateTask = (req: Request, res: Response) => {
+export const updateTask = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const taskBody: Task = req.body;
 
-  const task = taskService.updateTask(id, taskBody);
+  const task = await taskService.updateTask(id, taskBody);
 
   if (!task) {
     return res.status(404).json({ error: "Task not found" });
@@ -43,14 +43,14 @@ export const updateTask = (req: Request, res: Response) => {
   res.status(202).json(task);
 };
 
-export const deleteTask = (req: Request, res: Response) => {
+export const deleteTask = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
 
   if (isNaN(id)) {
     return res.status(400).json({ error: "ID inválido" });
   }
 
-  const deleted = taskService.deleteTask(id);
+  const deleted = await taskService.deleteTask(id);
 
   if (!deleted) {
     return res.status(404).json({ error: "Task not found" });
