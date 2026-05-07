@@ -3,6 +3,6 @@ pnpm-lock.yaml
 base.http
 
 /generated/prisma
+src/generated/
 .env
 
-/generated/prisma
