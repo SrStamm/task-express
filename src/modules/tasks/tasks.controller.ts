@@ -19,14 +19,13 @@ export const getTaskById = async (req: Request, res: Response) => {
 };
 
 export const createTask = async (req: Request, res: Response) => {
-  const body: Task = req.body;
+  const { text } = req.body;
 
-  const task = await taskService.createTask(body.text);
-
-  if (!task) {
-    return res.status(400).json({ error: "Task not created" });
+  if (!text || typeof text !== "string") {
+    return res.status(400).json({ error: "El campo 'text' es requerido" });
   }
 
+  const task = await taskService.createTask(text);
   res.status(201).json(task);
 };
 
