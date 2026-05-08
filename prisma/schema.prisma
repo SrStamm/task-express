@@ -11,3 +11,8 @@ model Task {
   id    Int     @id @default(autoincrement())
   text  String
 }
+
+model User {
+  id Int        @id @default(autoincrement())
+  name String
+  }
