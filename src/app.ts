@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import tasksRouter from "./modules/tasks/tasks.router";
 import userRouter from "./modules/users/users.router";
+import authRouter from "./modules/auth/auth.router";
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
+app.use("/", authRouter);
 app.use("/tasks", tasksRouter);
 app.use("/users", userRouter);
 
