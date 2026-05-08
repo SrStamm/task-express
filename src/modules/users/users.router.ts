@@ -1,25 +1,17 @@
-import express, { Request, Response } from "express";
-const usersRouter = express.Router();
+import express from "express";
 import * as userController from "./users.controller";
+import { verifyAuth } from "../../middlewares/auth";
 
-usersRouter.get("/", async (req: Request, res: Response) => {
-  return await userController.getAllusers(req, res);
-});
+const usersRouter = express.Router();
 
-usersRouter.get("/:id", async (req: Request, res: Response) => {
-  return userController.getUserById(req, res);
-});
+usersRouter.get("/", userController.getAllusers);
 
-usersRouter.post("/", async (req: Request, res: Response) => {
-  return await userController.createUser(req, res);
-});
+usersRouter.get("/:id", userController.getUserById);
 
-usersRouter.patch("/:id", async (req: Request, res: Response) => {
-  return userController.updateUser(req, res);
-});
+usersRouter.post("/", userController.createUser);
 
-usersRouter.delete("/:id", async (req: Request, res: Response) => {
-  return userController.deleteUser(req, res);
-});
+usersRouter.patch("/:id", verifyAuth, userController.updateUser);
+
+usersRouter.delete("/:id", verifyAuth, userController.deleteUser);
 
 export default usersRouter;
