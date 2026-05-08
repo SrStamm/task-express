@@ -25,3 +25,8 @@ export const login = async (email: string) => {
 
   return createToken(user.id);
 };
+
+export const verifyToken = (token: string) => {
+  const jwtSecretKey = process.env.JWT_SECRET_KEY!;
+  return jwt.verify(token, jwtSecretKey) as Token;
+};
