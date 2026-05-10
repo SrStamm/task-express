@@ -1,5 +1,12 @@
 import { prisma } from "../../../lib/prisma";
-import { User } from "./users.schema";
+import {
+  createUserSchema,
+  CreateUserSchema,
+  deleteUserSchema,
+  DeleteUserSchema,
+  updateUserSchema,
+  UpdateUserSchema,
+} from "./users.schema";
 
 export const getAllUsers = async () => {
   return await prisma.user.findMany();
@@ -9,28 +16,29 @@ export const getUserById = async (id: number) => {
   return await prisma.user.findUnique({ where: { id: id } });
 };
 
-export const createUser = async (name: string, email: string) => {
-  const newUser = await prisma.user.create({
+export const createUser = async (data: CreateUserSchema) => {
+  const validatedData = createUserSchema.parse(data);
+  return await prisma.user.create({
     data: {
-      name: name,
-      email: email,
+      name: validatedData.name,
+      email: validatedData.email,
     },
   });
-  return newUser;
 };
 
-export const updateUser = async (userId: number, userBody: User) => {
-  const updateUser = await prisma.user.update({
-    where: { id: userId },
-    data: { name: userBody.name },
+export const updateUser = async (data: UpdateUserSchema) => {
+  const validatedData = updateUserSchema.parse(data);
+
+  return await prisma.user.update({
+    where: { id: validatedData.id },
+    data: { name: validatedData.name },
   });
-
-  return updateUser;
 };
 
-export const deleteUser = async (id: number) => {
+export const deleteUser = async (data: DeleteUserSchema) => {
   try {
-    await prisma.user.delete({ where: { id: id } });
+    const validatedData = deleteUserSchema.parse(data);
+    await prisma.user.delete({ where: { id: validatedData.id } });
     return true;
   } catch (error) {
     return false;
