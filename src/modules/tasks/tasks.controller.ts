@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UpdateTaskBody } from "./tasks.schema";
+import { CreateTaskBody, UpdateTaskBody } from "./tasks.schema";
 import * as taskService from "./tasks.service";
 
 export const getAllTasks = async (req: Request, res: Response) => {
@@ -18,7 +18,7 @@ export const getTaskById = async (req: Request, res: Response) => {
 };
 
 export const createTask = async (req: Request, res: Response) => {
-  const { text } = req.body;
+  const { text }: CreateTaskBody = req.body;
 
   const task = await taskService.createTask({
     userId: req.user?.userId,
@@ -28,11 +28,13 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const updateTask = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const userId = req.user?.userId;
-  const taskBody: UpdateTaskBody = req.body;
+  const { text }: UpdateTaskBody = req.body;
 
-  const task = await taskService.updateTask(id, userId, taskBody);
+  const task = await taskService.updateTask({
+    id: req.params.id,
+    userId: req.user?.userId,
+    text: text,
+  });
 
   if (!task) {
     return res.status(404).json({ error: "Task not found" });
@@ -42,10 +44,10 @@ export const updateTask = async (req: Request, res: Response) => {
 };
 
 export const deleteTask = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const userId = req.user.userId;
-
-  const deleted = await taskService.deleteTask(id, userId);
+  const deleted = await taskService.deleteTask({
+    id: req.params.id,
+    userId: req.user.userId,
+  });
 
   if (!deleted) {
     return res.status(404).json({ error: "Task not found" });
