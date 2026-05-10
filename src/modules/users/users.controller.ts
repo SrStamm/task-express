@@ -8,8 +8,8 @@ export const getAllusers = async (req: Request, res: Response) => {
 };
 
 export const getUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const user = await userService.getUserById(id);
+  const userId = req.user?.userId;
+  const user = await userService.getUserById(userId);
 
   if (!user) {
     return res.status(404).json({ error: "user not found" });
@@ -19,21 +19,25 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const createUser = async (req: Request, res: Response) => {
-  const { name } = req.body;
+  const { name, email } = req.body;
 
   if (!name || typeof name !== "string") {
-    return res.status(400).json({ error: "El campo 'text' es requerido" });
+    return res.status(400).json({ error: "El campo 'name' es requerido" });
   }
 
-  const user = await userService.createUser(name);
+  if (!email || typeof email !== "string") {
+    return res.status(400).json({ error: "El campo 'email' es requerido" });
+  }
+
+  const user = await userService.createUser(name, email);
   res.status(201).json(user);
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  const userId = req.user?.userId;
   const userBody: User = req.body;
 
-  const user = await userService.updateUser(id, userBody);
+  const user = await userService.updateUser(userId, userBody);
 
   if (!user) {
     return res.status(404).json({ error: "user not found" });
@@ -43,13 +47,13 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  const userId = req.user?.userId;
 
-  if (isNaN(id)) {
+  if (isNaN(userId)) {
     return res.status(400).json({ error: "ID inválido" });
   }
 
-  const deleted = await userService.deleteUser(id);
+  const deleted = await userService.deleteUser(userId);
 
   if (!deleted) {
     return res.status(404).json({ error: "user not found" });

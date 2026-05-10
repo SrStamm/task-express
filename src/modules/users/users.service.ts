@@ -9,18 +9,19 @@ export const getUserById = async (id: number) => {
   return await prisma.user.findUnique({ where: { id: id } });
 };
 
-export const createUser = async (name: string) => {
+export const createUser = async (name: string, email: string) => {
   const newUser = await prisma.user.create({
     data: {
       name: name,
+      email: email,
     },
   });
   return newUser;
 };
 
-export const updateUser = async (id: number, userBody: User) => {
+export const updateUser = async (userId: number, userBody: User) => {
   const updateUser = await prisma.user.update({
-    where: { id: id },
+    where: { id: userId },
     data: { name: userBody.name },
   });
 
