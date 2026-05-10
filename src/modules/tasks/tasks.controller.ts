@@ -20,10 +20,6 @@ export const getTaskById = async (req: Request, res: Response) => {
 export const createTask = async (req: Request, res: Response) => {
   const { text } = req.body;
 
-  if (!text || typeof text !== "string") {
-    return res.status(400).json({ error: "El campo 'text' es requerido" });
-  }
-
   const task = await taskService.createTask({
     userId: req.user?.userId,
     text: text,
@@ -47,11 +43,7 @@ export const updateTask = async (req: Request, res: Response) => {
 
 export const deleteTask = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
-  const userId = req.user?.userId;
-
-  if (isNaN(id)) {
-    return res.status(400).json({ error: "ID inválido" });
-  }
+  const userId = req.user.userId;
 
   const deleted = await taskService.deleteTask(id, userId);
 
