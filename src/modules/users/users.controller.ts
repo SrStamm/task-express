@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as userService from "./users.service";
-import { User } from "./users.schema";
+import { CreateUserRouterSchema } from "./users.schema";
 
 export const getAllusers = async (req: Request, res: Response) => {
   const users = await userService.getAllUsers();
@@ -8,8 +8,7 @@ export const getAllusers = async (req: Request, res: Response) => {
 };
 
 export const getUserById = async (req: Request, res: Response) => {
-  const userId = req.user?.userId;
-  const user = await userService.getUserById(userId);
+  const user = await userService.getUserById(req.user.userId);
 
   if (!user) {
     return res.status(404).json({ error: "user not found" });
@@ -19,25 +18,23 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const createUser = async (req: Request, res: Response) => {
-  const { name, email } = req.body;
+  const { name, email }: CreateUserRouterSchema = req.body;
 
-  if (!name || typeof name !== "string") {
-    return res.status(400).json({ error: "El campo 'name' es requerido" });
-  }
-
-  if (!email || typeof email !== "string") {
-    return res.status(400).json({ error: "El campo 'email' es requerido" });
-  }
-
-  const user = await userService.createUser(name, email);
+  const user = await userService.createUser({
+    name: name,
+    email: email,
+  });
   res.status(201).json(user);
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-  const userId = req.user?.userId;
-  const userBody: User = req.body;
+  const { name, email } = req.body;
 
-  const user = await userService.updateUser(userId, userBody);
+  const user = await userService.updateUser({
+    id: req.user.userId,
+    email: email,
+    name: name,
+  });
 
   if (!user) {
     return res.status(404).json({ error: "user not found" });
@@ -47,13 +44,7 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-  const userId = req.user?.userId;
-
-  if (isNaN(userId)) {
-    return res.status(400).json({ error: "ID inválido" });
-  }
-
-  const deleted = await userService.deleteUser(userId);
+  const deleted = await userService.deleteUser({ id: req.user.userId });
 
   if (!deleted) {
     return res.status(404).json({ error: "user not found" });
