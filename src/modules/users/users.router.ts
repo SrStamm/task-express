@@ -10,8 +10,8 @@ usersRouter.get("/:id", userController.getUserById);
 
 usersRouter.post("/", userController.createUser);
 
-usersRouter.patch("/:id", verifyAuth, userController.updateUser);
+usersRouter.patch("/", verifyAuth, userController.updateUser);
 
-usersRouter.delete("/:id", verifyAuth, userController.deleteUser);
+usersRouter.delete("/", verifyAuth, userController.deleteUser);
 
 export default usersRouter;

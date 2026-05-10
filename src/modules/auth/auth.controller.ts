@@ -14,5 +14,5 @@ export const login = async (req: Request, res: Response) => {
   }
 
   // devuelve el token
-  res.send(token);
+  res.json({ access_token: token });
 };
