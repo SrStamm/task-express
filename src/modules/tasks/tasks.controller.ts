@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as taskService from "./tasks.service";
-import { Task } from "./tasks.schema";
+import { UpdateTaskBody } from "./tasks.schema";
 
 export const getAllTasks = async (req: Request, res: Response) => {
   const tasks = await taskService.getAllTasks(req.user?.userId);
@@ -24,14 +24,17 @@ export const createTask = async (req: Request, res: Response) => {
     return res.status(400).json({ error: "El campo 'text' es requerido" });
   }
 
-  const task = await taskService.createTask(req.user?.userId, text);
+  const task = await taskService.createTask({
+    userId: req.user?.userId,
+    text: text,
+  });
   res.status(201).json(task);
 };
 
 export const updateTask = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const userId = req.user?.userId;
-  const taskBody: Task = req.body;
+  const taskBody: UpdateTaskBody = req.body;
 
   const task = await taskService.updateTask(id, userId, taskBody);
 
