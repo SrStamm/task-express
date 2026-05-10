@@ -43,6 +43,7 @@ export const deleteTaskInput = z.object({
   userId: z.coerce.number(),
 });
 
+export type CreateTaskBody = z.infer<typeof createTaskRouterSchema>["body"];
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
 export type UpdateTaskBody = z.infer<typeof updateTaskRouterSchema>["body"];
 export type UpdateTaskService = z.infer<typeof updateTaskInput>;
