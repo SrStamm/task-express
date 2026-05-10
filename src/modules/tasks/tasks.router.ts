@@ -1,25 +1,17 @@
-import express, { Request, Response } from "express";
-const tasksRouter = express.Router();
+import express from "express";
 import * as taskController from "./tasks.controller";
+import { verifyAuth } from "../../middlewares/auth";
 
-tasksRouter.get("/", async (req: Request, res: Response) => {
-  return await taskController.getAllTasks(req, res);
-});
+const tasksRouter = express.Router();
 
-tasksRouter.get("/:id", async (req: Request, res: Response) => {
-  return taskController.getTaskById(req, res);
-});
+tasksRouter.get("/", verifyAuth, taskController.getAllTasks);
 
-tasksRouter.post("/", async (req: Request, res: Response) => {
-  return await taskController.createTask(req, res);
-});
+tasksRouter.get("/:id", verifyAuth, taskController.getTaskById);
 
-tasksRouter.patch("/:id", async (req: Request, res: Response) => {
-  return taskController.updateTask(req, res);
-});
+tasksRouter.post("/", verifyAuth, taskController.createTask);
 
-tasksRouter.delete("/:id", async (req: Request, res: Response) => {
-  return taskController.deleteTask(req, res);
-});
+tasksRouter.patch("/:id", verifyAuth, taskController.updateTask);
+
+tasksRouter.delete("/:id", verifyAuth, taskController.deleteTask);
 
 export default tasksRouter;
