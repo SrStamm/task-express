@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import * as taskService from "./tasks.service";
 import { UpdateTaskBody } from "./tasks.schema";
+import * as taskService from "./tasks.service";
 
 export const getAllTasks = async (req: Request, res: Response) => {
   const tasks = await taskService.getAllTasks(req.user?.userId);
