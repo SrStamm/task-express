@@ -8,8 +8,8 @@ export const getAllusers = async (req: Request, res: Response) => {
 };
 
 export const getUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const user = await userService.getUserById(id);
+  const userId = req.user?.userId;
+  const user = await userService.getUserById(userId);
 
   if (!user) {
     return res.status(404).json({ error: "user not found" });
@@ -34,10 +34,10 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  const userId = req.user?.userId;
   const userBody: User = req.body;
 
-  const user = await userService.updateUser(id, userBody);
+  const user = await userService.updateUser(userId, userBody);
 
   if (!user) {
     return res.status(404).json({ error: "user not found" });
@@ -47,13 +47,13 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  const userId = req.user?.userId;
 
-  if (isNaN(id)) {
+  if (isNaN(userId)) {
     return res.status(400).json({ error: "ID inválido" });
   }
 
-  const deleted = await userService.deleteUser(id);
+  const deleted = await userService.deleteUser(userId);
 
   if (!deleted) {
     return res.status(404).json({ error: "user not found" });

@@ -15,7 +15,7 @@ const createToken = (userId: number) => {
     userId: userId,
   };
 
-  return jwt.sign(data, jwtSecretKey, { expiresIn: "2m" });
+  return jwt.sign(data, jwtSecretKey, { expiresIn: "2h" });
 };
 
 export const login = async (email: string) => {
