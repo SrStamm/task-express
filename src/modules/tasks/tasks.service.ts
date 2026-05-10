@@ -1,5 +1,12 @@
 import { prisma } from "../../../lib/prisma";
-import { CreateTaskInput, createTaskSchema, Task } from "./tasks.schema";
+import {
+  CreateTaskInput,
+  createTaskSchema,
+  deleteTaskInput,
+  DeleteTaskInput,
+  updateTaskInput,
+  UpdateTaskService,
+} from "./tasks.schema";
 
 export const getAllTasks = async (userId: number) => {
   return await prisma.task.findMany({
@@ -19,28 +26,26 @@ export const createTask = async (task: CreateTaskInput) => {
   return newTask;
 };
 
-export const updateTask = async (
-  id: number,
-  userId: number,
-  taskBody: Task,
-) => {
+export const updateTask = async (input: UpdateTaskService) => {
+  const data = updateTaskInput.parse(input);
   const updateTask = await prisma.task.update({
     where: {
-      id: id,
-      userId: userId,
+      id: data.id,
+      userId: data.userId,
     },
-    data: { text: taskBody.text },
+    data: { text: data.text },
   });
 
   return updateTask;
 };
 
-export const deleteTask = async (id: number, userId: number) => {
+export const deleteTask = async (data: DeleteTaskInput) => {
+  const validatedData = deleteTaskInput.parse(data);
   try {
     await prisma.task.delete({
       where: {
-        id: id,
-        userId: userId,
+        id: validatedData.id,
+        userId: validatedData.userId,
       },
     });
     return true;
