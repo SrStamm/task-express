@@ -35,13 +35,14 @@ export const createTask = async (task: CreateTaskInput) => {
 };
 
 export const updateTask = async (input: UpdateTaskService) => {
-  const data = updateTaskInput.parse(input);
+  const { id, userId, projectId, text } = updateTaskInput.parse(input);
   const updateTask = await prisma.task.update({
     where: {
-      id: data.id,
-      userId: data.userId,
+      id: id,
+      userId: userId,
+      projectId: projectId,
     },
-    data: { text: data.text },
+    data: { text: text },
   });
 
   return updateTask;

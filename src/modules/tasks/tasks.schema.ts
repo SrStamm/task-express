@@ -28,6 +28,7 @@ export const updateTaskRouterSchema = z.object({
   }),
   params: z.object({
     id: z.coerce.number(),
+    projectId: z.coerce.number(),
   }),
 });
 
@@ -54,6 +55,7 @@ export type CreateTaskBody = z.infer<typeof createTaskRouterSchema>["body"];
 export type CreateTaskParams = z.infer<typeof createTaskRouterSchema>["params"];
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
 export type UpdateTaskBody = z.infer<typeof updateTaskRouterSchema>["body"];
+export type UpdateTaskParams = z.infer<typeof updateTaskRouterSchema>["params"];
 export type UpdateTaskService = z.infer<typeof updateTaskInput>;
 export type DeleteTaskParams = z.infer<typeof deleteTaskRouterSchema>["params"];
 export type DeleteTaskInput = z.infer<typeof deleteTaskInput>;

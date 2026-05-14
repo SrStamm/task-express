@@ -3,6 +3,7 @@ import {
   CreateTaskBody,
   CreateTaskParams,
   UpdateTaskBody,
+  UpdateTaskParams,
 } from "./tasks.schema";
 import * as taskService from "./tasks.service";
 
@@ -35,10 +36,12 @@ export const createTask = async (req: Request, res: Response) => {
 
 export const updateTask = async (req: Request, res: Response) => {
   const { text }: UpdateTaskBody = req.body;
+  const { id, projectId } = req.params as unknown as UpdateTaskParams;
 
   const task = await taskService.updateTask({
-    id: req.params.id,
+    id: id,
     userId: req.user?.userId,
+    projectId: projectId,
     text: text,
   });
 

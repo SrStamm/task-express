@@ -22,7 +22,7 @@ tasksRouter.post(
 );
 
 tasksRouter.patch(
-  "/:id",
+  "/:projectId/:id",
   verifyAuth,
   validate(updateTaskRouterSchema),
   taskController.updateTask,
