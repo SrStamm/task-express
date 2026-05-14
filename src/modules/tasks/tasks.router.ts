@@ -15,21 +15,21 @@ tasksRouter.get("/", verifyAuth, taskController.getAllTasks);
 tasksRouter.get("/:id", verifyAuth, taskController.getTaskById);
 
 tasksRouter.post(
-  "/",
+  "/:projectId",
   verifyAuth,
   validate(createTaskRouterSchema),
   taskController.createTask,
 );
 
 tasksRouter.patch(
-  "/:id",
+  "/:projectId/:id",
   verifyAuth,
   validate(updateTaskRouterSchema),
   taskController.updateTask,
 );
 
 tasksRouter.delete(
-  "/:id",
+  "/:projectId/:id",
   verifyAuth,
   validate(deleteTaskRouterSchema),
   taskController.deleteTask,

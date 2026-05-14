@@ -19,33 +19,43 @@ export const getTaskById = async (id: number) => {
 };
 
 export const createTask = async (task: CreateTaskInput) => {
-  const data = createTaskSchema.parse(task);
+  const { text, userId, projectId } = createTaskSchema.parse(task);
   const newTask = await prisma.task.create({
-    data,
+    data: {
+      text: text,
+      user: {
+        connect: { id: userId },
+      },
+      project: {
+        connect: { id: projectId },
+      },
+    },
   });
   return newTask;
 };
 
 export const updateTask = async (input: UpdateTaskService) => {
-  const data = updateTaskInput.parse(input);
+  const { id, userId, projectId, text } = updateTaskInput.parse(input);
   const updateTask = await prisma.task.update({
     where: {
-      id: data.id,
-      userId: data.userId,
+      id: id,
+      userId: userId,
+      projectId: projectId,
     },
-    data: { text: data.text },
+    data: { text: text },
   });
 
   return updateTask;
 };
 
 export const deleteTask = async (data: DeleteTaskInput) => {
-  const validatedData = deleteTaskInput.parse(data);
+  const { id, userId, projectId } = deleteTaskInput.parse(data);
   try {
     await prisma.task.delete({
       where: {
-        id: validatedData.id,
-        userId: validatedData.userId,
+        id: id,
+        userId: userId,
+        projectId: projectId,
       },
     });
     return true;

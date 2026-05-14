@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
-import { CreateTaskBody, UpdateTaskBody } from "./tasks.schema";
+import {
+  CreateTaskBody,
+  CreateTaskParams,
+  DeleteTaskInput,
+  DeleteTaskParams,
+  UpdateTaskBody,
+  UpdateTaskParams,
+} from "./tasks.schema";
 import * as taskService from "./tasks.service";
 
 export const getAllTasks = async (req: Request, res: Response) => {
@@ -19,20 +26,24 @@ export const getTaskById = async (req: Request, res: Response) => {
 
 export const createTask = async (req: Request, res: Response) => {
   const { text }: CreateTaskBody = req.body;
+  const { projectId } = req.params as unknown as CreateTaskParams;
 
   const task = await taskService.createTask({
     userId: req.user?.userId,
     text: text,
+    projectId: projectId,
   });
   res.status(201).json(task);
 };
 
 export const updateTask = async (req: Request, res: Response) => {
   const { text }: UpdateTaskBody = req.body;
+  const { id, projectId } = req.params as unknown as UpdateTaskParams;
 
   const task = await taskService.updateTask({
-    id: req.params.id,
+    id: id,
     userId: req.user?.userId,
+    projectId: projectId,
     text: text,
   });
 
@@ -44,9 +55,11 @@ export const updateTask = async (req: Request, res: Response) => {
 };
 
 export const deleteTask = async (req: Request, res: Response) => {
+  const { id, projectId } = req.params as unknown as DeleteTaskParams;
   const deleted = await taskService.deleteTask({
-    id: req.params.id,
+    id: id,
     userId: req.user.userId,
+    projectId: projectId,
   });
 
   if (!deleted) {
