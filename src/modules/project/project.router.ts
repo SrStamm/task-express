@@ -3,9 +3,9 @@ import * as projectController from "./project.controller";
 import { verifyAuth } from "../../middlewares/auth";
 import { validate } from "../../middlewares/validation";
 import {
-  addUserToProjectRouterSchema,
   createProjectRouterSchema,
   getProjectRouterSchema,
+  userInProjectRouterSchema,
 } from "./project.schema";
 
 const projectRouter = express.Router();
@@ -28,8 +28,15 @@ projectRouter.post(
 projectRouter.post(
   "/:projectId/users/:userId",
   verifyAuth,
-  validate(addUserToProjectRouterSchema),
+  validate(userInProjectRouterSchema),
   projectController.addUserToProject,
+);
+
+projectRouter.delete(
+  "/:projectId/users/:userId",
+  verifyAuth,
+  validate(userInProjectRouterSchema),
+  projectController.removeUserToProject,
 );
 
 export default projectRouter;

@@ -26,14 +26,14 @@ export const createProjectkSchema = z.object({
   userId: z.number().int().positive(),
 });
 
-export const addUserToProjectRouterSchema = z.object({
+export const userInProjectRouterSchema = z.object({
   params: z.object({
     projectId: z.coerce.number(),
     userId: z.coerce.number(),
   }),
 });
 
-export const addUserToProjectSchema = z.object({
+export const userInToProjectSchema = z.object({
   userId: z.number(),
   projectId: z.number(),
 });
@@ -43,7 +43,7 @@ export type CreateProjectBody = z.infer<
   typeof createProjectRouterSchema
 >["body"];
 export type CreateProjectInput = z.infer<typeof createProjectkSchema>;
-export type AddUserToProjectParams = z.infer<
-  typeof addUserToProjectRouterSchema
+export type UserInProjectParams = z.infer<
+  typeof userInProjectRouterSchema
 >["params"];
-export type AddUserToProjectSchema = z.infer<typeof addUserToProjectSchema>;
+export type UserInProjectSchema = z.infer<typeof userInToProjectSchema>;

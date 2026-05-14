@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import {
-  AddUserToProjectParams,
   CreateProjectBody,
   GetProjectById,
+  UserInProjectParams,
 } from "./project.schema";
 import * as projectService from "./project.service";
 
@@ -33,7 +33,7 @@ export const createProject = async (req: Request, res: Response) => {
 };
 
 export const addUserToProject = async (req: Request, res: Response) => {
-  const { userId, projectId } = req.params as unknown as AddUserToProjectParams;
+  const { userId, projectId } = req.params as unknown as UserInProjectParams;
   const userAdded = await projectService.addUserToProject({
     userId,
     projectId,
@@ -46,4 +46,22 @@ export const addUserToProject = async (req: Request, res: Response) => {
   }
 
   return res.status(200).json({ userAdded });
+};
+
+export const removeUserToProject = async (req: Request, res: Response) => {
+  const { userId, projectId } = req.params as unknown as UserInProjectParams;
+  const userRemoved = await projectService.removeUserToProject({
+    userId,
+    projectId,
+  });
+
+  if (!userRemoved) {
+    return res
+      .status(400)
+      .json({ error: "No se pudo remover el usuario al proyecto" });
+  }
+
+  return res
+    .status(202)
+    .json({ message: "Usuario removido del proyecto", projectId });
 };
