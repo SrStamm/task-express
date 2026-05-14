@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { CreateTaskBody, UpdateTaskBody } from "./tasks.schema";
+import {
+  CreateTaskBody,
+  CreateTaskParams,
+  UpdateTaskBody,
+} from "./tasks.schema";
 import * as taskService from "./tasks.service";
 
 export const getAllTasks = async (req: Request, res: Response) => {
@@ -19,10 +23,12 @@ export const getTaskById = async (req: Request, res: Response) => {
 
 export const createTask = async (req: Request, res: Response) => {
   const { text }: CreateTaskBody = req.body;
+  const { projectId } = req.params as unknown as CreateTaskParams;
 
   const task = await taskService.createTask({
     userId: req.user?.userId,
     text: text,
+    projectId: projectId,
   });
   res.status(201).json(task);
 };

@@ -15,7 +15,7 @@ tasksRouter.get("/", verifyAuth, taskController.getAllTasks);
 tasksRouter.get("/:id", verifyAuth, taskController.getTaskById);
 
 tasksRouter.post(
-  "/",
+  "/:projectId",
   verifyAuth,
   validate(createTaskRouterSchema),
   taskController.createTask,

@@ -19,9 +19,17 @@ export const getTaskById = async (id: number) => {
 };
 
 export const createTask = async (task: CreateTaskInput) => {
-  const data = createTaskSchema.parse(task);
+  const { text, userId, projectId } = createTaskSchema.parse(task);
   const newTask = await prisma.task.create({
-    data,
+    data: {
+      text: text,
+      user: {
+        connect: { id: userId },
+      },
+      project: {
+        connect: { id: projectId },
+      },
+    },
   });
   return newTask;
 };
