@@ -38,6 +38,20 @@ export const userInToProjectSchema = z.object({
   projectId: z.number(),
 });
 
+export const updateProjectRouterSchema = z.object({
+  body: z.object({
+    title: z.string(),
+  }),
+  params: z.object({
+    projectId: z.coerce.number(),
+  }),
+});
+
+export const updateProjectSchema = z.object({
+  title: z.string(),
+  projectId: z.coerce.number(),
+});
+
 export type GetProjectById = z.infer<typeof getProjectRouterSchema>["params"];
 export type CreateProjectBody = z.infer<
   typeof createProjectRouterSchema
@@ -47,3 +61,10 @@ export type UserInProjectParams = z.infer<
   typeof userInProjectRouterSchema
 >["params"];
 export type UserInProjectSchema = z.infer<typeof userInToProjectSchema>;
+export type UpdateProjectRouterBody = z.infer<
+  typeof updateProjectRouterSchema
+>["body"];
+export type UpdateProjectRouterParams = z.infer<
+  typeof updateProjectRouterSchema
+>["params"];
+export type UpdateProjectSchema = z.infer<typeof updateProjectSchema>;

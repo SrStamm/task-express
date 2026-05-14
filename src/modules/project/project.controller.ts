@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import {
   CreateProjectBody,
   GetProjectById,
+  UpdateProjectRouterBody,
+  UpdateProjectRouterParams,
   UserInProjectParams,
 } from "./project.schema";
 import * as projectService from "./project.service";
@@ -64,4 +66,20 @@ export const removeUserToProject = async (req: Request, res: Response) => {
   return res
     .status(202)
     .json({ message: "Usuario removido del proyecto", projectId });
+};
+
+export const updateProject = async (req: Request, res: Response) => {
+  const { projectId } = req.params as unknown as UpdateProjectRouterParams;
+  const { title }: UpdateProjectRouterBody = req.body;
+
+  const projectUpdated = await projectService.updateProject({
+    title,
+    projectId,
+  });
+
+  if (!projectUpdated) {
+    res.status(400).json({ error: "Error al actualizar el proyecto " });
+  }
+
+  res.status(200).json({ message: "Proyecto actualizado", projectUpdated });
 };
