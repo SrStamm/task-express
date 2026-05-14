@@ -4,6 +4,7 @@ import { verifyAuth } from "../../middlewares/auth";
 import { validate } from "../../middlewares/validation";
 import {
   createProjectRouterSchema,
+  deleteProjectRouterSchema,
   getProjectRouterSchema,
   updateProjectRouterSchema,
   userInProjectRouterSchema,
@@ -45,6 +46,13 @@ projectRouter.patch(
   verifyAuth,
   validate(updateProjectRouterSchema),
   projectController.updateProject,
+);
+
+projectRouter.delete(
+  "/:projectId/",
+  verifyAuth,
+  validate(deleteProjectRouterSchema),
+  projectController.deleteProject,
 );
 
 export default projectRouter;

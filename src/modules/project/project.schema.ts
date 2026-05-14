@@ -52,6 +52,16 @@ export const updateProjectSchema = z.object({
   projectId: z.coerce.number(),
 });
 
+export const deleteProjectRouterSchema = z.object({
+  params: z.object({
+    projectId: z.coerce.number(),
+  }),
+});
+
+export const deleteProjectSchema = z.object({
+  projectId: z.coerce.number(),
+});
+
 export type GetProjectById = z.infer<typeof getProjectRouterSchema>["params"];
 export type CreateProjectBody = z.infer<
   typeof createProjectRouterSchema
@@ -68,3 +78,7 @@ export type UpdateProjectRouterParams = z.infer<
   typeof updateProjectRouterSchema
 >["params"];
 export type UpdateProjectSchema = z.infer<typeof updateProjectSchema>;
+export type DeleteProjectRouterParams = z.infer<
+  typeof deleteProjectRouterSchema
+>["params"];
+export type DeleteProjectSchema = z.infer<typeof deleteProjectSchema>;

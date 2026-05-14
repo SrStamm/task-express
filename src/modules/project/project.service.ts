@@ -2,6 +2,8 @@ import { prisma } from "../../../lib/prisma";
 import {
   CreateProjectInput,
   createProjectkSchema,
+  deleteProjectSchema,
+  DeleteProjectSchema,
   updateProjectSchema,
   UpdateProjectSchema,
   UserInProjectSchema,
@@ -70,4 +72,16 @@ export const updateProject = async (data: UpdateProjectSchema) => {
       title: title,
     },
   });
+};
+
+export const deleteProject = async (data: DeleteProjectSchema) => {
+  const { projectId } = deleteProjectSchema.parse(data);
+  try {
+    await prisma.project.delete({
+      where: { id: projectId },
+    });
+    return true;
+  } catch (error) {
+    return false;
+  }
 };

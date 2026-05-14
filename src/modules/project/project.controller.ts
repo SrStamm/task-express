@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   CreateProjectBody,
+  DeleteProjectRouterParams,
   GetProjectById,
   UpdateProjectRouterBody,
   UpdateProjectRouterParams,
@@ -78,8 +79,24 @@ export const updateProject = async (req: Request, res: Response) => {
   });
 
   if (!projectUpdated) {
-    res.status(400).json({ error: "Error al actualizar el proyecto " });
+    return res.status(400).json({ error: "Error al actualizar el proyecto " });
   }
 
-  res.status(200).json({ message: "Proyecto actualizado", projectUpdated });
+  return res
+    .status(200)
+    .json({ message: "Proyecto actualizado", projectUpdated });
+};
+
+export const deleteProject = async (req: Request, res: Response) => {
+  const { projectId } = req.params as unknown as DeleteProjectRouterParams;
+
+  const projectDeleted = await projectService.deleteProject({
+    projectId,
+  });
+
+  if (!projectDeleted) {
+    return res.status(400).json({ error: "Error al eliminar el proyecto " });
+  }
+
+  return res.status(200).json({ message: "Proyecto eliminado" });
 };
