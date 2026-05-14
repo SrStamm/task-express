@@ -49,12 +49,13 @@ export const updateTask = async (input: UpdateTaskService) => {
 };
 
 export const deleteTask = async (data: DeleteTaskInput) => {
-  const validatedData = deleteTaskInput.parse(data);
+  const { id, userId, projectId } = deleteTaskInput.parse(data);
   try {
     await prisma.task.delete({
       where: {
-        id: validatedData.id,
-        userId: validatedData.userId,
+        id: id,
+        userId: userId,
+        projectId: projectId,
       },
     });
     return true;

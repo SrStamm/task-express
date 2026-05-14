@@ -42,6 +42,7 @@ export const updateTaskInput = z.object({
 export const deleteTaskRouterSchema = z.object({
   params: z.object({
     id: z.coerce.number(),
+    projectId: z.coerce.number(),
   }),
 });
 

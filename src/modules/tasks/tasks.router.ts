@@ -29,7 +29,7 @@ tasksRouter.patch(
 );
 
 tasksRouter.delete(
-  "/:id",
+  "/:projectId/:id",
   verifyAuth,
   validate(deleteTaskRouterSchema),
   taskController.deleteTask,
