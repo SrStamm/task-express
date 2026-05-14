@@ -9,6 +9,12 @@ export interface Project {
   tasks: Task[];
 }
 
+export const getProjectRouterSchema = z.object({
+  params: z.object({
+    id: z.coerce.number(),
+  }),
+});
+
 export const createProjectRouterSchema = z.object({
   body: z.object({
     title: z.string(),
@@ -20,6 +26,7 @@ export const createProjectkSchema = z.object({
   userId: z.number().int().positive(),
 });
 
+export type GetProjectById = z.infer<typeof getProjectRouterSchema>["params"];
 export type CreateProjectBody = z.infer<
   typeof createProjectRouterSchema
 >["body"];

@@ -5,13 +5,27 @@ export const getAllProjects = async () => {
   return await prisma.project.findMany();
 };
 
+export const getProjectById = async (id: number) => {
+  return await prisma.project.findUnique({
+    where: { id },
+    include: {
+      users: true,
+      tasks: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+};
+
 export const createProject = async (project: CreateProjectInput) => {
-  const data = createProjectkSchema.parse(project);
+  const { title, userId } = createProjectkSchema.parse(project);
   return await prisma.project.create({
     data: {
-      title: data.title,
+      title: title,
       users: {
-        connect: { id: data.userId },
+        connect: { id: userId },
       },
     },
   });
