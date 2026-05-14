@@ -1,5 +1,10 @@
 import { prisma } from "../../../lib/prisma";
-import { CreateProjectInput, createProjectkSchema } from "./project.schema";
+import {
+  addUserToProjectSchema,
+  AddUserToProjectSchema,
+  CreateProjectInput,
+  createProjectkSchema,
+} from "./project.schema";
 
 export const getAllProjects = async () => {
   return await prisma.project.findMany();
@@ -24,6 +29,18 @@ export const createProject = async (project: CreateProjectInput) => {
   return await prisma.project.create({
     data: {
       title: title,
+      users: {
+        connect: { id: userId },
+      },
+    },
+  });
+};
+
+export const addUserToProject = async (data: AddUserToProjectSchema) => {
+  const { projectId, userId } = addUserToProjectSchema.parse(data);
+  return await prisma.project.update({
+    where: { id: projectId },
+    data: {
       users: {
         connect: { id: userId },
       },

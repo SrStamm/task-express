@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { CreateProjectBody, GetProjectById } from "./project.schema";
+import {
+  AddUserToProjectParams,
+  CreateProjectBody,
+  GetProjectById,
+} from "./project.schema";
 import * as projectService from "./project.service";
 
 export const getAllProjects = async (req: Request, res: Response) => {
@@ -26,4 +30,20 @@ export const createProject = async (req: Request, res: Response) => {
     title: title,
   });
   res.status(201).json(project);
+};
+
+export const addUserToProject = async (req: Request, res: Response) => {
+  const { userId, projectId } = req.params as unknown as AddUserToProjectParams;
+  const userAdded = await projectService.addUserToProject({
+    userId,
+    projectId,
+  });
+
+  if (!userAdded) {
+    return res
+      .status(400)
+      .json({ error: "No se pudo agregar el usuario al proyecto" });
+  }
+
+  return res.status(200).json({ userAdded });
 };
