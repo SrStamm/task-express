@@ -1,5 +1,14 @@
 import { prisma } from "../../../lib/prisma";
-import { CreateProjectInput, createProjectkSchema } from "./project.schema";
+import {
+  CreateProjectInput,
+  createProjectkSchema,
+  deleteProjectSchema,
+  DeleteProjectSchema,
+  updateProjectSchema,
+  UpdateProjectSchema,
+  UserInProjectSchema,
+  userInToProjectSchema,
+} from "./project.schema";
 
 export const getAllProjects = async () => {
   return await prisma.project.findMany();
@@ -29,4 +38,50 @@ export const createProject = async (project: CreateProjectInput) => {
       },
     },
   });
+};
+
+export const addUserToProject = async (data: UserInProjectSchema) => {
+  const { projectId, userId } = userInToProjectSchema.parse(data);
+  return await prisma.project.update({
+    where: { id: projectId },
+    data: {
+      users: {
+        connect: { id: userId },
+      },
+    },
+  });
+};
+
+export const removeUserToProject = async (data: UserInProjectSchema) => {
+  const { projectId, userId } = userInToProjectSchema.parse(data);
+  return await prisma.project.update({
+    where: { id: projectId },
+    data: {
+      users: {
+        disconnect: { id: userId },
+      },
+    },
+  });
+};
+
+export const updateProject = async (data: UpdateProjectSchema) => {
+  const { title, projectId } = updateProjectSchema.parse(data);
+  return await prisma.project.update({
+    where: { id: projectId },
+    data: {
+      title: title,
+    },
+  });
+};
+
+export const deleteProject = async (data: DeleteProjectSchema) => {
+  const { projectId } = deleteProjectSchema.parse(data);
+  try {
+    await prisma.project.delete({
+      where: { id: projectId },
+    });
+    return true;
+  } catch (error) {
+    return false;
+  }
 };

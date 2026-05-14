@@ -26,8 +26,59 @@ export const createProjectkSchema = z.object({
   userId: z.number().int().positive(),
 });
 
+export const userInProjectRouterSchema = z.object({
+  params: z.object({
+    projectId: z.coerce.number(),
+    userId: z.coerce.number(),
+  }),
+});
+
+export const userInToProjectSchema = z.object({
+  userId: z.number(),
+  projectId: z.number(),
+});
+
+export const updateProjectRouterSchema = z.object({
+  body: z.object({
+    title: z.string(),
+  }),
+  params: z.object({
+    projectId: z.coerce.number(),
+  }),
+});
+
+export const updateProjectSchema = z.object({
+  title: z.string(),
+  projectId: z.coerce.number(),
+});
+
+export const deleteProjectRouterSchema = z.object({
+  params: z.object({
+    projectId: z.coerce.number(),
+  }),
+});
+
+export const deleteProjectSchema = z.object({
+  projectId: z.coerce.number(),
+});
+
 export type GetProjectById = z.infer<typeof getProjectRouterSchema>["params"];
 export type CreateProjectBody = z.infer<
   typeof createProjectRouterSchema
 >["body"];
 export type CreateProjectInput = z.infer<typeof createProjectkSchema>;
+export type UserInProjectParams = z.infer<
+  typeof userInProjectRouterSchema
+>["params"];
+export type UserInProjectSchema = z.infer<typeof userInToProjectSchema>;
+export type UpdateProjectRouterBody = z.infer<
+  typeof updateProjectRouterSchema
+>["body"];
+export type UpdateProjectRouterParams = z.infer<
+  typeof updateProjectRouterSchema
+>["params"];
+export type UpdateProjectSchema = z.infer<typeof updateProjectSchema>;
+export type DeleteProjectRouterParams = z.infer<
+  typeof deleteProjectRouterSchema
+>["params"];
+export type DeleteProjectSchema = z.infer<typeof deleteProjectSchema>;
