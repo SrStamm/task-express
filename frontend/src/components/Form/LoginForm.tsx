@@ -8,9 +8,11 @@ interface LoginProps {
 export default function LoginForm({ showRegisterForm }: LoginProps) {
   const [email, setEmail] = useState("");
 
-  const login = () => {
-    loginService({ email: email });
+  const login = async () => {
+    const res = await loginService({ email: email });
+    localStorage.setItem("access_token", res.access_token);
   };
+
   return (
     <>
       <h2>Login</h2>

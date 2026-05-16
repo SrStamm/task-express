@@ -6,17 +6,12 @@ interface Login {
   email: string;
 }
 
-interface Token {
-  userId: number;
-  time: string;
-}
-
 interface LoginResponse {
-  access_token: Token;
+  access_token: string;
 }
 
 export const loginService = async (data: Login): Promise<LoginResponse> => {
   const res = await axios.post<LoginResponse>(url + "/login", data);
-  console.log(res.data);
+  localStorage.setItem("access_token", res.data.access_token);
   return res.data;
 };
