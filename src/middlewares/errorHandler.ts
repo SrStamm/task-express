@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { CustomError } from "../types/customError";
+import { Prisma } from "../generated/client";
 
 export const errorHandler = (
   err: any,
@@ -18,6 +19,12 @@ export const errorHandler = (
   }
 
   // 3. Se verifica si es de Prisma o Zod
+  else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    if (err.code === "P2025") {
+      statusCode = 404;
+      message = `${err.meta?.modelName || "Record"} not found for this operation.`;
+    }
+  }
 
   // 4. Log del error
   console.error(`[Error] ${req.method} ${req.url}:`, err);
