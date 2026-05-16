@@ -20,17 +20,18 @@ export const getUserById = cathAsync(async (req: Request, res: Response) => {
   res.status(200).json(user);
 });
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = cathAsync(async (req: Request, res: Response) => {
   const { name, email }: CreateUserRouterSchema = req.body;
 
   const user = await userService.createUser({
     name: name,
     email: email,
   });
-  res.status(201).json(user);
-};
 
-export const updateUser = async (req: Request, res: Response) => {
+  res.status(201).json(user);
+});
+
+export const updateUser = cathAsync(async (req: Request, res: Response) => {
   const { name, email } = req.body;
 
   const user = await userService.updateUser({
@@ -44,14 +45,10 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 
   res.status(202).json(user);
-};
+});
 
-export const deleteUser = async (req: Request, res: Response) => {
-  const deleted = await userService.deleteUser({ id: req.user.userId });
-
-  if (!deleted) {
-    return res.status(404).json({ error: "user not found" });
-  }
+export const deleteUser = cathAsync(async (req: Request, res: Response) => {
+  await userService.deleteUser({ id: req.user.userId });
 
   res.status(204).send();
-};
+});

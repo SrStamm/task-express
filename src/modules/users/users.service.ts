@@ -36,11 +36,6 @@ export const updateUser = async (data: UpdateUserSchema) => {
 };
 
 export const deleteUser = async (data: DeleteUserSchema) => {
-  try {
-    const validatedData = deleteUserSchema.parse(data);
-    await prisma.user.delete({ where: { id: validatedData.id } });
-    return true;
-  } catch (error) {
-    return false;
-  }
+  const validatedData = deleteUserSchema.parse(data);
+  await prisma.user.delete({ where: { id: validatedData.id } });
 };
