@@ -52,10 +52,6 @@ export const updateTask = cathAsync(async (req: Request, res: Response) => {
     text: text,
   });
 
-  if (!task) {
-    throw new NotFoundError("Task not found");
-  }
-
   res.status(202).json(task);
 });
 

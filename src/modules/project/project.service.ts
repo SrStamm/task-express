@@ -76,12 +76,7 @@ export const updateProject = async (data: UpdateProjectSchema) => {
 
 export const deleteProject = async (data: DeleteProjectSchema) => {
   const { projectId } = deleteProjectSchema.parse(data);
-  try {
-    await prisma.project.delete({
-      where: { id: projectId },
-    });
-    return true;
-  } catch (error) {
-    return false;
-  }
+  await prisma.project.delete({
+    where: { id: projectId },
+  });
 };
