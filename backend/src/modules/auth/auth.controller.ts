@@ -10,7 +10,7 @@ export const login = async (req: Request, res: Response) => {
 
   // si no devuelve nada, es porque no se encontró el user
   if (!token) {
-    res.status(400).json({ error: "Usuario no encontrado" });
+    return res.status(400).json({ error: "Usuario no encontrado" });
   }
 
   // devuelve el token
