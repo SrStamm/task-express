@@ -5,7 +5,7 @@ interface LoginProps {
   showRegisterForm: () => void;
 }
 
-export default function LoginForm({ showRegisterForm }: LoginProps) {
+function LoginForm({ showRegisterForm }: LoginProps) {
   const [email, setEmail] = useState("");
 
   const login = async () => {
@@ -33,14 +33,16 @@ export default function LoginForm({ showRegisterForm }: LoginProps) {
         </div>
 
         <div>
-          <button type="submit" />
+          <button type="submit">Ingresar</button>
         </div>
       </form>
 
       <p>
-        No tenes una cuenta?{" "}
+        No tenes una cuenta?
         <span onClick={showRegisterForm}>Registrate aca</span>
       </p>
     </>
   );
 }
+
+export default LoginForm;
