@@ -5,16 +5,20 @@ import RegisterForm from "../components/Form/RegisterForm";
 export function AuthPage() {
   const [isLogin, setIsLogin] = useState(false);
 
-  const toggleLogin = () => {
-    setIsLogin(!isLogin);
+  const showLoginForm = () => {
+    setIsLogin(true);
+  };
+
+  const showRegisterForm = () => {
+    setIsLogin(false);
   };
 
   return (
     <>
       {isLogin ? (
-        <LoginForm showRegisterForm={toggleLogin} />
+        <LoginForm showRegisterForm={showRegisterForm} />
       ) : (
-        <RegisterForm showLoginForm={toggleLogin} />
+        <RegisterForm showLoginForm={showLoginForm} />
       )}
     </>
   );
