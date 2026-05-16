@@ -39,7 +39,9 @@ export const updateTask = async (input: UpdateTaskService) => {
   const updateTask = await prisma.task.update({
     where: {
       id: id,
-      userId: userId,
+      user: {
+        id: userId,
+      },
       projectId: projectId,
     },
     data: { text: text },
@@ -50,16 +52,11 @@ export const updateTask = async (input: UpdateTaskService) => {
 
 export const deleteTask = async (data: DeleteTaskInput) => {
   const { id, userId, projectId } = deleteTaskInput.parse(data);
-  try {
-    await prisma.task.delete({
-      where: {
-        id: id,
-        userId: userId,
-        projectId: projectId,
-      },
-    });
-    return true;
-  } catch (error) {
-    return false;
-  }
+  await prisma.task.delete({
+    where: {
+      id: id,
+      userId: userId,
+      projectId: projectId,
+    },
+  });
 };

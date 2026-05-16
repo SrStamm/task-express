@@ -1,30 +1,35 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   CreateTaskBody,
   CreateTaskParams,
-  DeleteTaskInput,
   DeleteTaskParams,
   UpdateTaskBody,
   UpdateTaskParams,
 } from "./tasks.schema";
 import * as taskService from "./tasks.service";
+import { NotFoundError } from "../../types/customError";
+import { cathAsync } from "../../utils/cathAsync";
 
 export const getAllTasks = async (req: Request, res: Response) => {
   const tasks = await taskService.getAllTasks(req.user?.userId);
   return res.status(200).json(tasks);
 };
 
-export const getTaskById = async (req: Request, res: Response) => {
-  const task = await taskService.getTaskById(req.user?.userId);
+export const getTaskById = cathAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = Number(req.params.id);
 
-  if (!task) {
-    return res.status(404).json({ error: "Task not found" });
-  }
+    const task = await taskService.getTaskById(id);
 
-  res.status(200).json(task);
-};
+    if (!task) {
+      throw new NotFoundError("Task with that ID not found");
+    }
 
-export const createTask = async (req: Request, res: Response) => {
+    res.status(200).json(task);
+  },
+);
+
+export const createTask = cathAsync(async (req: Request, res: Response) => {
   const { text }: CreateTaskBody = req.body;
   const { projectId } = req.params as unknown as CreateTaskParams;
 
@@ -34,9 +39,9 @@ export const createTask = async (req: Request, res: Response) => {
     projectId: projectId,
   });
   res.status(201).json(task);
-};
+});
 
-export const updateTask = async (req: Request, res: Response) => {
+export const updateTask = cathAsync(async (req: Request, res: Response) => {
   const { text }: UpdateTaskBody = req.body;
   const { id, projectId } = req.params as unknown as UpdateTaskParams;
 
@@ -47,24 +52,17 @@ export const updateTask = async (req: Request, res: Response) => {
     text: text,
   });
 
-  if (!task) {
-    return res.status(404).json({ error: "Task not found" });
-  }
-
   res.status(202).json(task);
-};
+});
 
-export const deleteTask = async (req: Request, res: Response) => {
+export const deleteTask = cathAsync(async (req: Request, res: Response) => {
   const { id, projectId } = req.params as unknown as DeleteTaskParams;
-  const deleted = await taskService.deleteTask({
+
+  await taskService.deleteTask({
     id: id,
     userId: req.user.userId,
     projectId: projectId,
   });
 
-  if (!deleted) {
-    return res.status(404).json({ error: "Task not found" });
-  }
-
   res.status(204).send();
-};
+});
