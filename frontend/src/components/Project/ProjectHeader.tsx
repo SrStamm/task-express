@@ -16,9 +16,9 @@ function ProjectHeader({
 }: ProjectHeaderProps) {
   return (
     <nav className="nav-header">
-      <div>
+      <div className="nav-project-data">
         <p>Titulo: {project.title}</p>
-        <p>Cantidad de tareas: {project.tasks.length}</p>
+        <p>Tareas: {project.tasks.length}</p>
       </div>
 
       <div className="project-selector">

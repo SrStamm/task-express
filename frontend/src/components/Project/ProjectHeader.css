@@ -2,4 +2,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--code-bg);
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.nav-project-data {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  color: var(--text-h);
+}
+
+.project-selector select {
+  padding: 8px;
+  border-radius: 8px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-h);
 }
