@@ -3,6 +3,23 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
   background-color: var(--code-bg);
+  border: 1px solid var(--border); /* Cambiado border-bottom por border completo */
+  border-radius: 8px; /* Redondeado sutil como el header */
+  gap: 18px;
+}
+
+.task-card button {
+  background-color: var(--bg);
+  color: var(--text-h);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.task-card button:hover {
+  border-color: var(--accent);
+  color: var(--text-h);
 }
