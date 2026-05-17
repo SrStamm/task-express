@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { loginService } from "../../services/auth.service";
+import Input from "../../components/ui/Input";
 import "./Form.css";
 
 interface LoginProps {
@@ -26,14 +27,7 @@ function LoginForm({ showRegisterForm }: LoginProps) {
           login();
         }}
       >
-        <div className="form-input">
-          <label>Email</label>
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-          />
-        </div>
+        <Input label="Email:" value={email} type="email" onChange={setEmail} />
 
         <div className="form-input">
           <button type="submit">Ingresar</button>
