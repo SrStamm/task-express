@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registerService } from "../../services/authService";
+import { registerService } from "../../services/auth.service";
 import "./Form.css";
 
 interface RegisterProps {

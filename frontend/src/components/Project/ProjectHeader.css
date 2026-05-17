@@ -2,4 +2,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--code-bg);
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.nav-project-data {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  color: var(--text-h);
+}
+
+.project-selector select {
+  padding: 8px 36px 8px 12px; /* Más espacio a la derecha para la flecha custom */
+  border-radius: 8px;
+  background-color: var(--bg); /* Fondo integrado con la app */
+  color: var(--text-h); /* Texto brillante en modo oscuro */
+  border: 1px solid var(--border);
+  font-family: var(--sans);
+  font-size: 15px;
+  cursor: pointer;
+
+  /* Esto elimina el diseño nativo del navegador (incluyendo su flecha) */
+  appearance: none;
+  -webkit-appearance: none;
+
+  /* Añadimos una flecha minimalista usando un SVG en línea como fondo */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+.project-selector select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-bg);
 }
