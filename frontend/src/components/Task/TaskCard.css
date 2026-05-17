@@ -14,13 +14,22 @@
   background-color: var(--bg);
   color: var(--text-h);
   border: 1px solid var(--border);
-  padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
-  margin-left: 6px;
+  padding: 6px 12px;
 }
 
+/* Efecto hover */
 .task-card button:hover {
   border-color: var(--accent);
   color: var(--text-h);
+}
+
+.form-elements {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
 }

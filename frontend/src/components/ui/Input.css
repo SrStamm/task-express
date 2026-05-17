@@ -1,0 +1,31 @@
+.form-input {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  padding-bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input label {
+  text-align: left;
+  font-family: var(--sans);
+  margin-bottom: 4px;
+}
+
+.form-input input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: var(--code-bg);
+  color: var(--text-h);
+  font-family: var(--sans);
+
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input input:focus {
+  outline: none;
+  border-color: var(--accent);
+}

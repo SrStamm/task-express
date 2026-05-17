@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { loginService } from "../../services/auth.service";
 import "./Form.css";
+import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
 
 interface LoginProps {
   showRegisterForm: () => void;
@@ -25,19 +27,16 @@ function LoginForm({ showRegisterForm }: LoginProps) {
           e.preventDefault();
           login();
         }}
+        className="form-elements"
       >
-        <div className="form-input">
-          <label>Email</label>
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-          />
-        </div>
+        <Input
+          label="Email:"
+          value={email}
+          type="email"
+          onChangeText={setEmail}
+        />
 
-        <div className="form-input">
-          <button type="submit">Ingresar</button>
-        </div>
+        <Button text="Ingresar" />
       </form>
 
       <p>
