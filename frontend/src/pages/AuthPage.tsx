@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LoginForm from "../components/Form/LoginForm";
 import RegisterForm from "../components/Form/RegisterForm";
+import "./AuthPage.css";
 
 export function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,12 +15,12 @@ export function AuthPage() {
   };
 
   return (
-    <>
+    <main className="auth-layout">
       {isLogin ? (
         <LoginForm showRegisterForm={showRegisterForm} />
       ) : (
         <RegisterForm showLoginForm={showLoginForm} />
       )}
-    </>
+    </main>
   );
 }

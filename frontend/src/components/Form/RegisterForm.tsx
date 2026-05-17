@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { registerService } from "../../services/authService";
+import "./Form.css";
 
 interface RegisterProps {
   showLoginForm: () => void;
@@ -12,10 +13,13 @@ export default function RegisterForm({ showLoginForm }: RegisterProps) {
   const register = async () => {
     const res = await registerService({ email: email, name: name });
     console.log(res);
+
+    setEmail("");
+    setName("");
   };
 
   return (
-    <>
+    <div className="form-container">
       <h2>Register</h2>
 
       <form
@@ -24,7 +28,7 @@ export default function RegisterForm({ showLoginForm }: RegisterProps) {
           register();
         }}
       >
-        <div>
+        <div className="form-input">
           <label>Nombre</label>
           <input
             value={name}
@@ -33,7 +37,7 @@ export default function RegisterForm({ showLoginForm }: RegisterProps) {
           />
         </div>
 
-        <div>
+        <div className="form-input">
           <label>Email</label>
           <input
             type="email"
@@ -42,8 +46,8 @@ export default function RegisterForm({ showLoginForm }: RegisterProps) {
           />
         </div>
 
-        <div>
-          <button />
+        <div className="form-input">
+          <button>Registrarse</button>
         </div>
       </form>
 
@@ -51,6 +55,6 @@ export default function RegisterForm({ showLoginForm }: RegisterProps) {
         Ya tenes una cuenta?
         <span onClick={() => showLoginForm()}>Logeate aca</span>
       </p>
-    </>
+    </div>
   );
 }
