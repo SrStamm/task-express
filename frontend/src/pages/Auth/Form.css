@@ -22,3 +22,28 @@
 .form-container span:hover {
   color: var(--text-h);
 }
+
+.form-container button {
+  background-color: var(--bg);
+  color: var(--text-h);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 8px 12px;
+
+  width: 100%;
+  margin-top: 20px;
+  font-family: var(--sans);
+}
+
+.form-container button:hover {
+  border-color: var(--accent);
+  color: var(--text-h);
+}
+
+.form-elements {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  padding-bottom: 0;
+}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { registerService } from "../../services/auth.service";
 import "./Form.css";
 import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
 
 interface RegisterProps {
   showLoginForm: () => void;
@@ -31,6 +32,7 @@ export default function RegisterForm({ showLoginForm }: RegisterProps) {
           e.preventDefault();
           register();
         }}
+        className="form-elements"
       >
         <Input label="Nombre:" onChangeText={setName} value={name} />
 
@@ -41,9 +43,7 @@ export default function RegisterForm({ showLoginForm }: RegisterProps) {
           onChangeText={setEmail}
         />
 
-        <div className="form-input">
-          <button>Registrarse</button>
-        </div>
+        <Button text="Registrarse" />
       </form>
 
       <p>
