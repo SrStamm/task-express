@@ -1,43 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProjectHeader from "../../components/Project/ProjectHeader";
 import type { Project } from "../../types/project";
-import "./DashboardPage.css";
 import TaskList from "../../components/Task/TaskList";
-
-const projectList: Project[] = [
-  {
-    id: 1,
-    title: "Probando",
-    tasks: [
-      { id: 1, projectId: 1, text: "Testeando frontend", userId: 1 },
-      { id: 2, projectId: 1, text: "Testeando backend", userId: 1 },
-    ],
-    users: [{ id: 1, email: "test@test.com", name: "test" }],
-  },
-  {
-    id: 2,
-    title: "Test",
-    tasks: [
-      { id: 2, projectId: 1, text: "Testeando backend", userId: 1 },
-      {
-        id: 3,
-        projectId: 1,
-        text: "Testeando otra cosa",
-        userId: 1,
-      },
-    ],
-    users: [{ id: 1, email: "test@test.com", name: "test" }],
-  },
-];
+import * as ProjectService from "../../services/project.service.ts";
+import "./DashboardPage.css";
 
 function DashboardPage() {
-  const [project, setProject] = useState<Project>(projectList[0]);
+  const [project, setProject] = useState<Project>();
+  const [listProject, setListProject] = useState<Project[]>();
 
-  const updateSelectedProject = (id: number) => {
-    const selected = projectList.find((p) => p.id == id);
+  useEffect(() => {
+    const getProjects = async () => {
+      const projects = await ProjectService.getProjects();
 
-    if (selected) {
-      setProject(selected);
+      if (projects) {
+        setListProject(projects);
+      }
+    };
+
+    getProjects();
+  }, []);
+
+  const updateSelectedProject = async (id: number) => {
+    if (listProject) {
+      const selected = listProject.find((p) => p.id == id);
+
+      if (selected) {
+        const project = await ProjectService.getProjectById(id);
+
+        if (project) {
+          setProject(project);
+        }
+      }
     }
   };
 
@@ -46,12 +40,12 @@ function DashboardPage() {
       <header>
         <ProjectHeader
           project={project}
-          projectList={projectList}
+          projectList={listProject}
           updateSelectedProject={updateSelectedProject}
         />
       </header>
       <main className="tasks-container">
-        <TaskList Tasks={project.tasks} />
+        {project && <TaskList Tasks={project.tasks} />}
       </main>
     </div>
   );

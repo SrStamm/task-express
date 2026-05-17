@@ -4,8 +4,8 @@ import type { Project } from "../../types/project";
 import "./ProjectHeader.css";
 
 interface ProjectHeaderProps {
-  project: Project;
-  projectList: Project[];
+  project?: Project;
+  projectList?: Project[];
   updateSelectedProject: (id: number) => void;
 }
 
@@ -17,24 +17,31 @@ function ProjectHeader({
   return (
     <nav className="nav-header">
       <div className="nav-project-data">
-        <p>Titulo: {project.title}</p>
-        <p>Tareas: {project.tasks.length}</p>
+        {project ? (
+          <>
+            <p>Titulo: {project.title}</p>
+            <p>Tareas: {project.tasks.length}</p>
+          </>
+        ) : (
+          <p>Proyecto no seleccionado</p>
+        )}
       </div>
 
       <div className="project-selector">
         <select
-          value={project.id}
+          value={project && project.id}
           onChange={(e) => {
             updateSelectedProject(+e.target.value);
           }}
         >
-          {projectList.map((p) => {
-            return (
-              <option value={p.id} key={p.id}>
-                {p.title}
-              </option>
-            );
-          })}
+          {projectList &&
+            projectList.map((p) => {
+              return (
+                <option value={p.id} key={p.id}>
+                  {p.title}
+                </option>
+              );
+            })}
         </select>
       </div>
     </nav>

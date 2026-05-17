@@ -2,6 +2,7 @@
 
 import type { Task } from "../../types/task";
 import TaskCard from "./TaskCard";
+import "./TaskList.css";
 
 interface TaskListProps {
   Tasks: Task[];
@@ -9,9 +10,9 @@ interface TaskListProps {
 
 function TaskList({ Tasks }: TaskListProps) {
   return (
-    <ol>
+    <ol className="task-list">
       {Tasks.map((t) => {
-        return <TaskCard Task={t} />;
+        return <TaskCard key={t.id} Task={t} />;
       })}
     </ol>
   );
