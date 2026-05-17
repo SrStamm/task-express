@@ -10,12 +10,15 @@ export default function RegisterForm({ showLoginForm }: RegisterProps) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
 
+  const cleanData = () => {
+    setEmail("");
+    setName("");
+  };
+
   const register = async () => {
     const res = await registerService({ email: email, name: name });
     console.log(res);
-
-    setEmail("");
-    setName("");
+    cleanData();
   };
 
   return (
