@@ -4,9 +4,11 @@ import userRouter from "./modules/users/users.router";
 import authRouter from "./modules/auth/auth.router";
 import projectRouter from "./modules/project/project.router";
 import { errorHandler } from "./middlewares/errorHandler";
+import cors from "cors";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
